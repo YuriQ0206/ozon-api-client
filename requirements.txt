@@ -1,0 +1,8 @@
+requests>=2.25.1
+
+# 开发依赖
+pytest>=6.2.5
+pytest-mock>=3.6.1
+flake8>=4.0.1
+black>=22.3.0
+isort>=5.10.1
