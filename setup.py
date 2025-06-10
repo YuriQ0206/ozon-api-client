@@ -11,7 +11,7 @@ setup(
     description="Ozon广告API的Python客户端",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/ozon-api-client",
+    url="https://github.com/YuriQ0206/ozon-api-client",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
