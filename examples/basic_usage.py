@@ -1,3 +1,4 @@
+import pandas as pd
 from ozon_api.client import OzonAPIClient
 
 # 配置文件路径
@@ -24,7 +25,6 @@ def main():
                 date_to="2023-12-31",
                 metrics=["clicks", "impressions", "spent", "orders"]
             )
-
             print(f"广告活动统计: {stats}")
 
             # 获取广告组列表
@@ -53,6 +53,19 @@ def main():
                         metrics=["clicks", "impressions", "spent", "orders"]
                     )
                     print(f"广告统计: {ad_stats}")
+
+            # 将数据保存到Excel文件
+            data_frames = {
+                'Campaigns': pd.DataFrame(campaigns),
+                'Campaign Stats': pd.DataFrame(stats),
+                'Ad Groups': pd.DataFrame(ad_groups),
+                'Ads': pd.DataFrame(ads),
+                'Ad Stats': pd.DataFrame(ad_stats)
+            }
+
+            with pd.ExcelWriter('ozon_api_data.xlsx') as writer:
+                for sheet_name, df in data_frames.items():
+                    df.to_excel(writer, sheet_name=sheet_name, index=False)
 
     except Exception as e:
         print(f"发生错误: {str(e)}")
