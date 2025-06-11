@@ -1,10 +1,16 @@
+import os
 from ozon_api.client import OzonAPIClient
 from ozon_api.config import Config
 import pandas as pd
 
-# 配置文件路径
-config_file = '../config.ini'
+# 获取项目根目录
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+config_file = os.path.join(project_root, 'config.ini')
+print(f"使用配置文件: {config_file}")
+
 config = Config(config_file)
+
+# 其余代码保持不变...
 
 # 初始化客户端
 client = OzonAPIClient(config_file)
