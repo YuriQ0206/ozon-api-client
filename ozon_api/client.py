@@ -101,4 +101,32 @@ class OzonAPIClient:
         endpoint = "/campaigns"
         return self._make_request("POST", endpoint, campaign_data)
 
-    # 其他方法保持不变...
+    def get_campaign_stats(self, campaign_id: int, date_from: str, date_to: str, metrics: List[str]) -> Dict:
+        """获取广告活动统计数据"""
+        endpoint = f"/campaigns/{campaign_id}/stats"
+        body = {
+            "date_from": date_from,
+            "date_to": date_to,
+            "metrics": metrics
+        }
+        return self._make_request("POST", endpoint, body)
+
+    def get_ad_groups(self, campaign_id: int) -> List[Dict]:
+        """获取广告组列表"""
+        endpoint = f"/campaigns/{campaign_id}/ad_groups"
+        return self._make_request("GET", endpoint).get('ad_groups', [])
+
+    def get_ads(self, campaign_id: int, ad_group_id: int) -> List[Dict]:
+        """获取广告列表"""
+        endpoint = f"/campaigns/{campaign_id}/ad_groups/{ad_group_id}/ads"
+        return self._make_request("GET", endpoint).get('ads', [])
+
+    def get_ad_stats(self, campaign_id: int, ad_group_id: int, ad_id: int, date_from: str, date_to: str, metrics: List[str]) -> Dict:
+        """获取广告统计数据"""
+        endpoint = f"/campaigns/{campaign_id}/ad_groups/{ad_group_id}/ads/{ad_id}/stats"
+        body = {
+            "date_from": date_from,
+            "date_to": date_to,
+            "metrics": metrics
+        }
+        return self._make_request("POST", endpoint, body)

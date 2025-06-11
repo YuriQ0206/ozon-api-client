@@ -1,11 +1,15 @@
-import pandas as pd
 from ozon_api.client import OzonAPIClient
+from ozon_api.config import Config
 
 # 配置文件路径
 config_file = '../config.ini'
+config = Config(config_file)
 
 # 初始化客户端
 client = OzonAPIClient(config_file)
+
+date_from = config.get('date_from')
+date_to = config.get('date_to')
 
 def main():
     try:
@@ -21,10 +25,11 @@ def main():
             # 获取广告活动统计数据
             stats = client.get_campaign_stats(
                 campaign_id=campaign_id,
-                date_from="2023-01-01",
-                date_to="2023-12-31",
+                date_from=date_from,
+                date_to=date_to,
                 metrics=["clicks", "impressions", "spent", "orders"]
             )
+
             print(f"广告活动统计: {stats}")
 
             # 获取广告组列表
@@ -48,24 +53,11 @@ def main():
                         campaign_id=campaign_id,
                         ad_group_id=ad_group_id,
                         ad_id=ad_id,
-                        date_from="2023-01-01",
-                        date_to="2023-12-31",
+                        date_from=date_from,
+                        date_to=date_to,
                         metrics=["clicks", "impressions", "spent", "orders"]
                     )
                     print(f"广告统计: {ad_stats}")
-
-            # 将数据保存到Excel文件
-            data_frames = {
-                'Campaigns': pd.DataFrame(campaigns),
-                'Campaign Stats': pd.DataFrame(stats),
-                'Ad Groups': pd.DataFrame(ad_groups),
-                'Ads': pd.DataFrame(ads),
-                'Ad Stats': pd.DataFrame(ad_stats)
-            }
-
-            with pd.ExcelWriter('ozon_api_data.xlsx') as writer:
-                for sheet_name, df in data_frames.items():
-                    df.to_excel(writer, sheet_name=sheet_name, index=False)
 
     except Exception as e:
         print(f"发生错误: {str(e)}")
